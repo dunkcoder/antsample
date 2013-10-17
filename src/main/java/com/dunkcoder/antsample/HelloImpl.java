@@ -1,4 +1,4 @@
-package main.java.com.dunkcoder.antsample;
+package com.dunkcoder.antsample;
 
 public class HelloImpl implements IHello {
 

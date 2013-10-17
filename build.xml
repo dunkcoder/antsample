@@ -1,9 +1,9 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <project name="${build.app}" basedir="." default="deploy">
 	<property file="build.properties" />
 
-	<path id="master-classpath">
+	<path id="classpath">
 		<fileset dir="${lib.path}">
 			<include name="*.jar" />
 		</fileset>
@@ -14,7 +14,7 @@
 		<mkdir dir="${build.path}" />
 		<javac destdir="${build.path}" target="1.6" debug="true" deprecation="false" optimize="false" failonerror="true" includeAntRuntime="false">
 			<src path="${src.path}" />
-			<classpath refid="master-classpath" />
+			<classpath refid="classpath" />
 		</javac>
 	</target>
 
