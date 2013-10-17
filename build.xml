@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<project name="${build.app}" basedir="." default="deploy">
+	<property file="build.properties" />
+
+	<path id="master-classpath">
+		<fileset dir="${lib.path}">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement path="${build.path}" />
+	</path>
+
+	<target name="build" description="compile java files">
+		<mkdir dir="${build.path}" />
+		<javac destdir="${build.path}" target="1.6" debug="true" deprecation="false" optimize="false" failonerror="true" includeAntRuntime="false">
+			<src path="${src.path}" />
+			<classpath refid="master-classpath" />
+		</javac>
+	</target>
+
+	<target name="deploy" depends="build" description="deploy application">
+		<delete includeEmptyDirs="true">
+			<fileset dir="${deploy.path}" />
+		</delete>
+		<!-- Create the WEB-INF lib directory and jar the antsample application -->
+		<mkdir dir="${deploy.path}/WEB-INF/lib" />
+		<jar destfile="${deploy.path}/WEB-INF/lib/${build.app}-${build.ver}.jar" basedir="${build.path}" />
+		<copy todir="${deploy.path}/WEB-INF/lib" includeEmptyDirs="false">
+			<fileset dir="${lib.path}" />
+		</copy>
+		<!-- Create the classes directory -->
+		<mkdir dir="${deploy.path}/WEB-INF/classes" />
+		<copy todir="${deploy.path}/WEB-INF/classes" includeEmptyDirs="false">
+			<fileset dir="${config.path}" />
+		</copy>
+		<copy todir="${deploy.path}" includeEmptyDirs="false">
+			<fileset dir="${web.path}" />
+		</copy>
+	</target>
+
+</project>
