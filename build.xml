@@ -12,27 +12,32 @@
 
 	<target name="build" description="compile java files">
 		<mkdir dir="${build.path}" />
-		<javac destdir="${build.path}" target="1.6" debug="true" deprecation="false" optimize="false" failonerror="true" includeAntRuntime="false">
+		<javac destdir="${build.path}" target="1.6" debug="true" optimize="false" failonerror="true" includeAntRuntime="false">
 			<src path="${src.path}" />
 			<classpath refid="classpath" />
 		</javac>
 	</target>
 
 	<target name="deploy" depends="build" description="deploy application">
-		<delete includeEmptyDirs="true">
+		<!-- clean whole ${APP} by delete directory -->
+		<delete includeEmptyDirs="true" failonerror="false">
 			<fileset dir="${deploy.path}" />
 		</delete>
-		<!-- Create the WEB-INF lib directory and jar the antsample application -->
+		<!-- create the ${APP}/WEB-INF/lib directory -->
 		<mkdir dir="${deploy.path}/WEB-INF/lib" />
+		<!-- jar the ${APP} -->
 		<jar destfile="${deploy.path}/WEB-INF/lib/${build.app}-${build.ver}.jar" basedir="${build.path}" />
+		<!-- deploy all jarfiles by copy which include ${APP} -->
 		<copy todir="${deploy.path}/WEB-INF/lib" includeEmptyDirs="false">
 			<fileset dir="${lib.path}" />
 		</copy>
-		<!-- Create the classes directory -->
+		<!-- create the classes directory -->
 		<mkdir dir="${deploy.path}/WEB-INF/classes" />
+		<!-- deploy all classes and configuration files by copy -->
 		<copy todir="${deploy.path}/WEB-INF/classes" includeEmptyDirs="false">
 			<fileset dir="${config.path}" />
 		</copy>
+		<!-- deploy static files -->
 		<copy todir="${deploy.path}" includeEmptyDirs="false">
 			<fileset dir="${web.path}" />
 		</copy>
