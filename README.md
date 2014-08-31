@@ -1,2 +1,2 @@
 ##### ant project sample
-config deploy.path in build.properties for test
+config tomcat.home in build.properties for test
